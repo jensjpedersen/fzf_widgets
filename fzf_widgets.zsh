@@ -10,6 +10,8 @@
 # CD scripts ls files on right window ctrl space 
 HISTORY_PATH="${HOME}/.zhistory"
 FZF_HEIGHT=30
+EDITOR="nvim"
+
 
 FILE_PATH=$0
 err_msg() { echo "${FILE_PATH}: Error: $1" 1>&2 }
@@ -17,13 +19,9 @@ err_msg() { echo "${FILE_PATH}: Error: $1" 1>&2 }
 [[ -f ${HISTORY_PATH} ]] || (err_msg "File does not exist: $HISTORY_PATH" && return)
 which fzf > /dev/null; [[ $? != 0 ]] && err_msg "Fzf is not installed." && return
 which fd > /dev/null; [[ $? != 0 ]] && err_msg "Fd is not installed." && return
-
-# dependecies exa rg bat okular pdfgrep
-
-# Adds quotes around pathneames containg spaces
+which exa > /dev/null; [[ $? != 0 ]] && err_msg "Exa is not installed." && return
 
 
-# https://github.com/junegunn/fzf/issues/1750
 #  TODO: rg file extension input
 fzf-rg-widget() {
     [[ -n $1 ]] && QUERY=$1
@@ -42,7 +40,7 @@ fzf-rg-widget() {
     if [[ ${fzf_status} -eq 0 ]]; then
         IFS=":"
         arr=( $(echo "${fzf_output}" | tr '\n' ':') )
-        LBUFFER="nvim ${arr[2]} +${arr[3]}"
+        LBUFFER="${EDITOR} ${arr[2]} +${arr[3]}"
         zle reset-prompt
         zle accept-line # Execute line
 
@@ -93,7 +91,7 @@ bindkey '^K' fzf-pdf-widget
 
 fzf-dir-widget() {
     search="." 
-    fzf_prev="--preview-window 50%,wrap --preview='exa -l {}' --preview-window hidden --bind 'ctrl-space:toggle-preview','ctrl-d:preview-page-down','ctrl-u:preview-page-up'"
+    fzf_prev="--preview-window 50%,wrap --preview='exa -1a {}' --preview-window hidden --bind 'ctrl-space:toggle-preview','ctrl-d:preview-page-down','ctrl-u:preview-page-up'"
     DIR=$(fd -H -i -t d ${search} $(pwd)| eval fzf --height=${FZF_HEIGHT} --layout=reverse ${fzf_prev})
     fzf_status=$?
     [[ ${DIR} == *" "* ]] && DIR=\"${DIR}\" # Add quotes if dir contains space 
@@ -131,7 +129,7 @@ fzf-file-widget() {
         [[ $fzf_status -eq 0 ]] && LBUFFER="${LBUFFER} " # add white space if exit == 0 
         zle reset-prompt
     else
-        LBUFFER="nvim ${FILE}" 
+        LBUFFER="${EDITOR} ${FILE}" 
         if [ $fzf_status -eq 0 ]; then
             zle reset-prompt
             zle accept-line
