@@ -28,12 +28,16 @@ If your command line buffer was not empty when `^P` was pressed. Then pressing
 `<Enter>` will paste the file path to your buffer. Quotes will be added to
 paths contains space.   
 
+![file](https://user-images.githubusercontent.com/62065926/209685874-cfe52525-c83d-4981-b786-0c8f3acd58b4.gif)
+
 ### Fuzzy search directories 
 * `^O` - Fuzzy search all directories from current path.  
 
 Pressing `<Enter>` will `cd` into the selected directory only if your command line
 buffer initially was empty. If your command line buffer is not empty then
 pressing `<Enter>` will paste the directory to the buffer. 
+
+![cd](https://user-images.githubusercontent.com/62065926/209685913-756fd505-4f03-42a4-9157-aad9bf1f0c7e.gif)
 
 ### Fuzzy search file content
 * `^J` - Fuzzy search content in all files from current directory.  
