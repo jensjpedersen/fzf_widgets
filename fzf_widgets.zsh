@@ -56,7 +56,7 @@ fzf-rg-widget() {
 
 }
 zle -N fzf-rg-widget
-bindkey '^J' fzf-rg-widget
+bindkey '^U' fzf-rg-widget
 
 fzf-pdf-widget() {
     #PDFGREP_PREFIX="pdfgrep --line-number --color=always --ignore-case -C 1"
@@ -87,7 +87,7 @@ fzf-pdf-widget() {
 
 }
 zle -N fzf-pdf-widget
-bindkey '^K' fzf-pdf-widget
+bindkey '^Y' fzf-pdf-widget
 
 fzf-dir-widget() {
     search="." 
@@ -166,4 +166,4 @@ fzf-history-widget() {
     fi
 }
 zle     -N   fzf-history-widget
-bindkey '^H' fzf-history-widget
+bindkey '^R' fzf-history-widget
